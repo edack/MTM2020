@@ -1,0 +1,12 @@
+mvscmd --pgm=sort --args='MSGPRT=CRITICAL,LIST' \
+   --sortin01='Z00070.INPUT(NAMES1)' \
+   --sortin02='Z00070.INPUT(NAMES2)' \
+   --sysin='Z00070.INPUT(MERGECMD)' \
+   --sortout='Z00070.OUTPUT(ZOAMERGD)' \
+   --sysout=*
+
+if (($? == 0));
+then echo "It worked!"
+else
+echo "It didn't work"
+fi
