@@ -24,7 +24,7 @@
            05 PRINT-LINE                   PIC X(132).
       *
        FD  HACKER-NEWS-FILE RECORDING MODE F.
-       01  HACKER-NEWS-RECORD.
+       01  HACKER-NEWS-RECORD-IN.
            05 FILLER                       PIC X(143).
        FD  SORT-FILE RECORDING MODE F.
        01  SORT-RECORD.
@@ -73,19 +73,7 @@
                10  FILLER  PIC X(20) VALUE '--------------------'.
                10  FILLER  PIC X(20) VALUE '----                '.
                10  FILLER  PIC X(20) VALUE '                    '.
-      *---------------------------------------------------------------*
-       01  WS-HACKER-NEWS-RECORD.
-      *---------------------------------------------------------------*
-           05  HNR-KEY                     PIC X(08).
-           05  HNR-TITLE                   PIC X(96).
-           05  HNR-VOTES                   PIC 9(04).
-           05  HNR-COMMENTS                PIC 9(04).
-           05  HNR-AUTHOR                  PIC X(15).
-           05  HNR-CREATED-DATE            PIC X(16).
-           05  HNR-DATE                    PIC X(11).
-           05  HNR-TIME                    PIC X(05) JUSTIFIED RIGHT.
-           05  HNR-TIME-HH                 PIC 9(02).
-           05  HNR-TIME-MM                 PIC 9(02).
+       COPY HACKNEWS.
       *---------------------------------------------------------------*
        01  WS-SWITCHES-SUBSCRIPTS-MISC.
       *---------------------------------------------------------------*
@@ -97,26 +85,7 @@
            05  COUNTER-2                   PIC 9(02) VALUE 0.
            05  SR-STATUS                   PIC X(02) VALUE '00'.
            05  WS-HN-TIME                  PIC 99V9999.
-           05  WS-CURRENT-DATE-DATA.
-               10  WS-CURRENT-DATE.
-                   15  WS-CURRENT-YY       PIC 9(04).
-                   15  WS-CURRENT-MM       PIC 9(02).
-                   15  WS-CURRENT-DD       PIC 9(02).
-               10  WS-CURRENT-TIME.
-                   15  WS-CURRENT-HH       PIC 9(02).
-                   15  WS-CURRENT-MM       PIC 9(02).
-                   15  WS-CURRENT-SS       PIC 9(02).
-                   15  WS-CURRENT-MS       PIC 9(02).
-           05 PRINTER-CONTROL-FIELDS.
-               10  LINE-SPACEING           PIC 9(02) VALUE 1.
-               10  LINE-COUNT              PIC 9(03) VALUE 999.
-               10  LINES-ON-PAGE           PIC 9(02) VALUE 60.
-               10  PAGE-COUNT              PIC 9(02) VALUE 1.
-               10  TOP-OF-PAGE             PIC X(02) VALUE '1'.
-               10  SINGLE-SPACE            PIC X(01) VALUE ' '.
-               10  DOUBLE-SPACE            PIC X(01) VALUE '0'.
-               10  TRIPLE-SPACE            PIC X(01) VALUE '-'.
-               10  OVERPRINT               PIC X(01) VALUE '+'.
+       COPY PRINTCTL.
       *===============================================================*
        PROCEDURE DIVISION.
       *---------------------------------------------------------------*
@@ -161,7 +130,7 @@
                                           DL-CREATED-TIME
                MOVE HNR-VOTES          TO SR-VOTES
                                           DL-VOTES
-               MOVE HNR-COMMENTS       TO SR-NUM-COMMENTS
+               MOVE HNR-TITLE          TO SR-NUM-COMMENTS
                MOVE DL-RANKING         TO SR-RANKING
                MOVE HNR-TIME-HH        TO DL-HN-HH
                MOVE HNR-TIME-MM        TO DL-HN-MM
@@ -193,20 +162,20 @@
       *---------------------------------------------------------------*
        8100-BREAKOUT-HACKER-RECORD.
       *---------------------------------------------------------------*
-           INSPECT HACKER-NEWS-RECORD
+           INSPECT HACKER-NEWS-RECORD-IN 
                REPLACING ALL '"' BY '#'
                AFTER INITIAL '"'.
-           INSPECT HACKER-NEWS-RECORD
+           INSPECT HACKER-NEWS-RECORD-IN 
                REPLACING ALL ',' BY ' '
                AFTER QUOTE BEFORE '#'.
-           INSPECT HACKER-NEWS-RECORD
+           INSPECT HACKER-NEWS-RECORD-IN 
                REPLACING ALL '"' BY ' '
                          All '#' BY ' '.
-           UNSTRING HACKER-NEWS-RECORD DELIMITED BY ','
+           UNSTRING HACKER-NEWS-RECORD-IN  DELIMITED BY ','
                 INTO HNR-KEY
                      HNR-TITLE
                      HNR-VOTES
-                     HNR-COMMENTS
+                     HNR-TITLE
                      HNR-AUTHOR
                      HNR-CREATED-DATE.
       *---------------------------------------------------------------*
