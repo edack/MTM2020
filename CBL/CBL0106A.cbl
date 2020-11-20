@@ -17,18 +17,7 @@
            05 PRINT-LINE             PIC X(132).
       *
        FD  ACCT-FILE RECORDING MODE F.
-       01  ACCT-RECORD.
-           05  ACCT-NO            PIC X(8).
-           05  ACCT-LIMIT         PIC S9(7)V99 COMP-3.
-           05  ACCT-BALANCE       PIC S9(7)V99 COMP-3.
-           05  LAST-NAME          PIC X(20).
-           05  FIRST-NAME         PIC X(15).
-           05  CLIENT-ADDR.
-               10  STREET-ADDR    PIC X(25).
-               10  CITY-COUNTY    PIC X(20).
-               10  USA-STATE      PIC X(15).
-           05  RESERVED           PIC X(7).
-           05  COMMENTS           PIC X(50).
+       COPY ACCTREC.
       *----------------------------------------------------------*
        WORKING-STORAGE SECTION.
       *----------------------------------------------------------*
@@ -158,16 +147,7 @@
                10  FILLER         PIC X(13) VALUE '-------------'.
                10  FILLER         PIC X(40) VALUE SPACES.
       *----------------------------------------------------------*
-       01 PRINTER-CONTROL-FIELDS.
-           05  LINE-SPACEING         PIC 9(02) VALUE 1.
-           05  LINE-COUNT            PIC 9(03) VALUE 999.
-           05  LINES-ON-PAGE         PIC 9(02) VALUE 60.
-           05  PAGE-COUNT            PIC 9(02) VALUE 1.
-           05  TOP-OF-PAGE           PIC X(02) VALUE '1'.
-           05  SINGLE-SPACE          PIC X(01) VALUE ' '.
-           05  DOUBLE-SPACE          PIC X(01) VALUE '0'.
-           05  TRIPLE-SPACE          PIC X(01) VALUE '-'.
-           05  OVERPRINT             PIC X(01) VALUE '+'.
+       COPY PRINTCTL.
       *----------------------------------------------------------*
        01  WS-CURRENT-DATE-DATA.
            05  WS-CURRENT-DATE.

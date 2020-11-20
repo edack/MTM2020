@@ -19,7 +19,7 @@
       *----------------------------------------------------------*
        FILE SECTION.
       *----------------------------------------------------------*
-       FD  INPUT-FILE RECORDING MODE F.
+       FD  INPUT-FILE.
        01  INPUT-RECORD.
            05  IR-FIRST-NAME               PIC X(11).
            05  IR-LAST-NAME                PIC X(22).
@@ -27,10 +27,10 @@
            05  IR-ACCT-AMT                 PIC X(12).
            05  FILLER                      PIC X(07).
       *----------------------------------------------------------*
-       FD  PRINT-FILE RECORDING MODE F.
+       FD  PRINT-FILE.
        01  PRINT-RECORD.
       *    05 CC                           PIC X(01).
-           05 PRINT-LINE                   PIC X(80).
+           05 PRINT-LINE                   PIC X(79).
       *----------------------------------------------------------*
        WORKING-STORAGE SECTION.
       *----------------------------------------------------------*
@@ -88,29 +88,10 @@
            05  END-OF-FILE-SW              PIC X VALUE 'N'.
                88  END-OF-FILE                   VALUE 'Y'.
            05  WS-ACCUM-FIELDS.
-               10  WS-HIGH-ACCT-CNT        PIC 9(04) VALUE 1.
+               10  WS-HIGH-ACCT-CNT        PIC 9(04) VALUE 0.
            05  WS-NUMBER-FIELDS.
                10  WS-NUM-ACCT-AMT         PIC 9(09)V99.
-           05  WS-CURRENT-DATE-DATA.
-               10  WS-CURRENT-DATE.
-                   15  WS-CURRENT-YY       PIC 9(04).
-                   15  WS-CURRENT-MO       PIC 9(02).
-                   15  WS-CURRENT-DD       PIC 9(02).
-               10  WS-CURRENT-TIME.
-                   15  WS-CURRENT-HH       PIC 9(02).
-                   15  WS-CURRENT-MM       PIC 9(02).
-                   15  WS-CURRENT-SS       PIC 9(02).
-                   15  WS-CURRENT-MS       PIC 9(02).
-           05 PRINTER-CONTROL-FIELDS.
-               10  LINE-SPACEING           PIC 9(02) VALUE 1.
-               10  LINE-COUNT              PIC 9(03) VALUE 999.
-               10  LINES-ON-PAGE           PIC 9(02) VALUE 60.
-               10  PAGE-COUNT              PIC 9(02) VALUE 1.
-               10  TOP-OF-PAGE             PIC X(02) VALUE '1'.
-               10  SINGLE-SPACE            PIC X(01) VALUE ' '.
-               10  DOUBLE-SPACE            PIC X(01) VALUE '0'.
-               10  TRIPLE-SPACE            PIC X(01) VALUE '-'.
-               10  OVERPRINT               PIC X(01) VALUE '+'.
+       COPY PRINTCTL.
       *==========================================================*
        PROCEDURE DIVISION.
       *----------------------------------------------------------*
@@ -130,14 +111,14 @@
                    OUTPUT PRINT-FILE.
            MOVE "ED ACKERMAN / Z00070" TO HL2-PREPARED-NAME.
            MOVE FUNCTION CURRENT-DATE  TO WS-CURRENT-DATE-DATA.
-           MOVE WS-CURRENT-MO          TO HL2-MONTH.
-           MOVE WS-CURRENT-DD          TO HL2-DAY.
-           MOVE WS-CURRENT-YY          TO HL2-YEAR.
+           MOVE WS-CURRENT-MONTH       TO HL2-MONTH.
+           MOVE WS-CURRENT-DAY         TO HL2-DAY.
+           MOVE WS-CURRENT-YEAR        TO HL2-YEAR.
       *----------------------------------------------------------*
        2000-PROCESS-ACCT-FILE.
       *----------------------------------------------------------*
            MOVE SPACE                   TO DL1-CLIENT-NAME.
-           COMPUTE WS-NUM-ACCT-AMT =  FUNCTION NUMVAL-C(IR-ACCT-AMT)
+           COMPUTE WS-NUM-ACCT-AMT = FUNCTION NUMVAL-C(IR-ACCT-AMT)
            IF  WS-NUM-ACCT-AMT  > 8500000
                STRING IR-FIRST-NAME DELIMITED BY SPACE
                    SPACE DELIMITED BY SIZE

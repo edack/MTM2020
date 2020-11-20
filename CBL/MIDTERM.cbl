@@ -147,8 +147,7 @@
                 MOVE 'AFFORDABLE CARE ACT'
                    TO DET-POLICY-TYPE
            WHEN OTHER
-                MOVE 'UNKNOWN' TO DET-POLICY-TYPE
-            END-EVALUATE.
+                MOVE 'UNKNOWN' TO DET-POLICY-TYPE.
            MOVE INSURED-POLICY-NO          TO DL1-POLICY-NUM.
            MOVE INSURED-LAST-NAME          TO DL1-POLICY-L-NAME.
            MOVE INSURED-FIRST-NAME         TO DL1-POLICY-F-NAME.

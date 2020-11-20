@@ -1,3 +1,16 @@
+      *---------------------------------------------------------------*
+       01  PRINTER-CONTROL-DATE-FIELDS.
+      *---------------------------------------------------------------*
+           05  WS-CURRENT-DATE-DATA.
+               10  WS-CURRENT-DATE.
+                   15  WS-CURRENT-YEAR     PIC 9(04).
+                   15  WS-CURRENT-MONTH    PIC 9(02).
+                   15  WS-CURRENT-DAY      PIC 9(02).
+               10  WS-CURRENT-TIME.
+                   15  WS-CURRENT-HOUR     PIC 9(02).
+                   15  WS-CURRENT-MINUTES  PIC 9(02).
+                   15  WS-CURRENT-SECONDS  PIC 9(02).
+                   15  WS-CURRENT-MM-SEC   PIC 9(02).
            05 PRINTER-CONTROL-FIELDS.
                10  LINE-SPACEING           PIC 9(02) VALUE 1.
                10  LINE-COUNT              PIC 9(03) VALUE 999.
