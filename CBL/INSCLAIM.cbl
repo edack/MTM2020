@@ -305,8 +305,8 @@
                 MOVE 'AFFORDABLE CARE ACT'
                    TO DET-POLICY-TYPE
            WHEN OTHER
-                MOVE 'UNKNOWN' TO DET-POLICY-TYPE.
-
+                MOVE 'UNKNOWN' TO DET-POLICY-TYPE
+           END-EVALUATE.
            INSPECT DET-POLICY-NO REPLACING ALL ' ' BY '-'.
            MOVE 1                        TO INSURED-SUB.
            MOVE SPACES                   TO DET-NAME.
