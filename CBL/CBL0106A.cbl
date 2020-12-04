@@ -149,17 +149,6 @@
       *----------------------------------------------------------*
        COPY PRINTCTL.
       *----------------------------------------------------------*
-       01  WS-CURRENT-DATE-DATA.
-           05  WS-CURRENT-DATE.
-               10  WS-CURRENT-YEAR         PIC 9(04).
-               10  WS-CURRENT-MONTH        PIC 9(02).
-               10  WS-CURRENT-DAY          PIC 9(02).
-           05  WS-CURRENT-TIME.
-               10  WS-CURRENT-HOURS        PIC 9(02).
-               10  WS-CURRENT-MINUTE       PIC 9(02).
-               10  WS-CURRENT-SECOND       PIC 9(02).
-               10  WS-CURRENT-MILLISECONDS PIC 9(02).
-      *----------------------------------------------------------*
        01  WS-SWITCHES-SUBSCRIPTS.
            05  END-OF-FILE-SW              PIC X VALUE 'N'.
                88  END-OF-FILE                   VALUE 'Y'.
