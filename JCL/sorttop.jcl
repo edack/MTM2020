@@ -9,16 +9,16 @@
 //RPT1      DD SYSOUT=*
 //SYSIN     DD *
   SORT FORMAT=CH,
-       FIELDS=(62,12,A)
-    INCLUDE   COND=(61,13,CH,GT,C' 8,500,000.00')
-  OUTFIL FNAMES=RPT1,LINES=50,
-  HEADER1=(1:'REPORT OF TOP ACCOUNT BALANCE HOLDERS',/,
-           1:'PREPARED FOR ED ACKERMAN/Z00070',66:&DATE,/,
-            1:'F NAME',12:'LNAME',33:'DATES',61:'ACT BAL',/),
+      FIELDS=(62,12,A)
+      INCLUDE   COND=(61,13,CH,GT,C' 8,500,000.00')
+  OUTFIL FNAMES=RPT1,BLKCCT1,LINES=50,
+  HEADER2=(1:'REPORT OF TOP ACCOUNT BALANCE HOLDERS',/,
+           1:'PREPARED FOR ED ACKERMAN/z00070',66:&DATE,/,
+           1:'F NAME',13:'L NAME',38:'ACT BALANCE',/,
+           1:'======',13:'======',38:'=== =======',/),
   OUTREC=(1,11,X,
             12,22,X,
-            33,28,X,
-            61,13,X),
-  TRAILER1=(2/,
-        3:COUNT=(EDIT=(IIT)),' Accounts Over Limit')
+            61,13,X,
+            25X),
+  TRAILER1(/,3:COUNT=(EDIT=(IIT)),' Accounts Over Limit')
 /*
