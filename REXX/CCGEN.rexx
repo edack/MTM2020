@@ -45,20 +45,20 @@ DO WHILE (out_ctr < 500)
         line.1 = cc_digits
         SAY "cc_digits " cc_digits
         DO
-            "EXECIO 1 DISKW outdd (STEM line." /* Write it to ou*/
-            out_ctr = out_ctr + 1        /* Increment output lin*/
+            "EXECIO 1 DISKW outdd (STEM line." /* Write it to outdd  */
+            out_ctr = out_ctr + 1        /* Increment output line ctr*/
         END
     END
 END
-IF out_ctr > 0 THEN             /* Were any lines written to outdd?*/
+IF out_ctr > 0 THEN             /* Were any lines written to outdd?  */
     DO                               /* Yes.  So outdd is now open   */
-        "EXECIO 0 DISKW outdd (FINIS" /* Closes the open file, outdd     */
+        "EXECIO 0 DISKW outdd (FINIS" /* Closes the open file, outdd */
         SAY 'File outdd now contains ' out_ctr' lines.'
         SAY 'invalid card count ' inv_card
     END
 ELSE                         /* Else no new lines have been written  */
     DO                         /* Erase any old records from the file*/
-       "EXECIO 0 DISKW outdd (OPEN FINIS"  /*Empty the outdd file      */
+       "EXECIO 0 DISKW outdd (OPEN FINIS"  /*Empty the outdd file    */
         SAY 'File outdd is now empty.'
     END
 "FREE FI(indd)"
