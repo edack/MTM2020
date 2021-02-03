@@ -118,7 +118,7 @@
        2000-PROCESS-ACCT-FILE.
       *----------------------------------------------------------*
            MOVE SPACE                   TO DL1-CLIENT-NAME.
-           COMPUTE WS-NUM-ACCT-AMT = FUNCTION NUMVAL-C(IR-ACCT-AMT)
+           COMPUTE WS-NUM-ACCT-AMT = FUNCTION NUMVAL-C(IR-ACCT-AMT).
            IF  WS-NUM-ACCT-AMT  > 8500000
                STRING IR-FIRST-NAME DELIMITED BY SPACE
                    SPACE DELIMITED BY SIZE
