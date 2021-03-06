@@ -2,6 +2,7 @@
 //***************************************************/
 //COBRUN  EXEC IGYWCL
 //COBOL.SYSIN  DD DSN=&SYSUID..CBL(CBL0106A),DISP=SHR
+//COBOL.SYSLIB DD DSN=&SYSUID..COPYLIB,DISP=SHR
 //LKED.SYSLMOD DD DSN=&SYSUID..LOAD(CBL0106A),DISP=SHR
 //***************************************************/
 // IF RC = 0 THEN
