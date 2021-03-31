@@ -46,8 +46,8 @@ DO WHILE (return_code \= eofflag)  /* Loop while not end-of-file    */
                     IF result \= 0 THEN
                         DO
                             "EXECIO 1 DISKW outdd (STEM line."
+                            out_ctr = out_ctr + 1        /* Increment output */
                         END
-                    out_ctr = out_ctr + 1        /* Increment output */
                 END
         END
 END
@@ -71,7 +71,7 @@ ELSE                         /* Else no new lines have been written  */
 
    /****************************************************************/
    /* Since the outdd file is still closed at this point, the      */
-   /* following "EXECIO 0 DISKW " command will open the file,   */
+   /* following "EXECIO 0 DISKW  " command will open the file,   */
    /* write 0 records, and then close it.  This will effectively   */
    /* empty the data set allocated to outdd.  Any old records that */
    /* were in this data set when this exec started will now be     */
