@@ -19,7 +19,8 @@
       *---------------------------------------------------------------*
        FILE SECTION.
       *---------------------------------------------------------------*
-       FD  INPUT-FILE.
+       FD  INPUT-FILE
+           RECORDING MODE IS F.
        01  INPUT-RECORD.
            05  IR-FIRST-NAME               PIC X(11).
            05  IR-LAST-NAME                PIC X(22).
@@ -27,7 +28,8 @@
            05  IR-ACCT-AMT                 PIC X(12).
            05  FILLER                      PIC X(07).
       *---------------------------------------------------------------*
-       FD  PRINT-FILE.
+       FD  PRINT-FILE
+           RECORDING MODE IS F.
        01  PRINT-RECORD.
       *    05 CC                           PIC X(01).
            05 PRINT-LINE                   PIC X(79).
@@ -77,9 +79,9 @@
        01 DETAIL-LINES.
       *---------------------------------------------------------------*
            05  DETAIL-LINE-1.
-               10  DL1-CLIENT-NAME          PIC X(25).
+               10  DL1-CLIENT-NAME         PIC X(25).
                10  FILLER                  PIC X(03) VALUE SPACE.
-               10  DL1-ACCT-AMT             PIC $$,$$$,$$9.99.
+               10  DL1-ACCT-AMT            PIC $$,$$$,$$9.99.
                10  FILLER                  PIC X(40) VALUE SPACE.
       *         10  FILLER  PIC X(80).
       *---------------------------------------------------------------*
@@ -109,32 +111,32 @@
       *---------------------------------------------------------------*
            OPEN    INPUT  INPUT-FILE
                    OUTPUT PRINT-FILE.
-           MOVE "ED ACKERMAN / Z00070" TO HL2-PREPARED-NAME.
-           MOVE FUNCTION CURRENT-DATE  TO WS-CURRENT-DATE-DATA.
-           MOVE WS-CURRENT-MONTH       TO HL2-MONTH.
-           MOVE WS-CURRENT-DAY         TO HL2-DAY.
-           MOVE WS-CURRENT-YEAR        TO HL2-YEAR.
+           MOVE "ED ACKERMAN / Z00070"     TO HL2-PREPARED-NAME.
+           MOVE FUNCTION CURRENT-DATE      TO WS-CURRENT-DATE-DATA.
+           MOVE WS-CURRENT-MONTH           TO HL2-MONTH.
+           MOVE WS-CURRENT-DAY             TO HL2-DAY.
+           MOVE WS-CURRENT-YEAR            TO HL2-YEAR.
       *---------------------------------------------------------------*
        2000-PROCESS-ACCT-FILE.
       *---------------------------------------------------------------*
-           MOVE SPACE                   TO DL1-CLIENT-NAME.
+           MOVE SPACE                      TO DL1-CLIENT-NAME.
            COMPUTE WS-NUM-ACCT-AMT = FUNCTION NUMVAL-C(IR-ACCT-AMT).
-           IF  WS-NUM-ACCT-AMT  > 8500000
+           IF  WS-NUM-ACCT-AMT   > 8500000
                STRING IR-FIRST-NAME DELIMITED BY SPACE
                    SPACE DELIMITED BY SIZE
                    IR-LAST-NAME DELIMITED BY SPACE
                    INTO DL1-CLIENT-NAME
-               MOVE WS-NUM-ACCT-AMT      TO DL1-ACCT-AMT
-               ADD 1                     TO WS-HIGH-ACCT-CNT
-               MOVE DETAIL-LINE-1        TO NEXT-REPORT-LINE
+               MOVE WS-NUM-ACCT-AMT        TO DL1-ACCT-AMT
+               ADD 1                       TO WS-HIGH-ACCT-CNT
+               MOVE DETAIL-LINE-1          TO NEXT-REPORT-LINE
                PERFORM 9000-PRINT-REPORT-LINE.
            PERFORM 8000-READ-ACCT-FILE.
       *---------------------------------------------------------------*
        3000-PRINT-TOTAL-LINES.
       *---------------------------------------------------------------*
-           MOVE WS-HIGH-ACCT-CNT         TO TL1-TOT-HIGH-ACCTS.
-           MOVE 2                        TO LINE-SPACEING.
-           MOVE  TOTAL-LINE-1            TO NEXT-REPORT-LINE.
+           MOVE WS-HIGH-ACCT-CNT           TO TL1-TOT-HIGH-ACCTS.
+           MOVE 2                          TO LINE-SPACEING.
+           MOVE  TOTAL-LINE-1              TO NEXT-REPORT-LINE.
            PERFORM 9000-PRINT-REPORT-LINE.
       *---------------------------------------------------------------*
        4000-CLOSE-FILES.
@@ -156,30 +158,30 @@
       *---------------------------------------------------------------*
        9100-PRINT-HEADING-LINES.
       *---------------------------------------------------------------*
-           MOVE PAGE-COUNT           TO HL1-PAGE-COUNT.
-           MOVE HEADING-LINE-1       TO PRINT-LINE.
+           MOVE PAGE-COUNT                 TO HL1-PAGE-COUNT.
+           MOVE HEADING-LINE-1             TO PRINT-LINE.
            PERFORM 9110-WRITE-TOP-OF-PAGE.
-           MOVE 1                    TO LINE-SPACEING.
-           MOVE HEADING-LINE-2       TO PRINT-LINE.
+           MOVE 1                          TO LINE-SPACEING.
+           MOVE HEADING-LINE-2             TO PRINT-LINE.
            PERFORM 9120-WRITE-PRINT-LINE.
-           MOVE HEADING-LINE-3       TO PRINT-LINE.
+           MOVE HEADING-LINE-3             TO PRINT-LINE.
            PERFORM 9120-WRITE-PRINT-LINE.
-           MOVE HEADING-LINE-4       TO PRINT-LINE.
+           MOVE HEADING-LINE-4             TO PRINT-LINE.
            PERFORM 9120-WRITE-PRINT-LINE.
-           ADD  1                    TO PAGE-COUNT.
-           MOVE 1                    TO LINE-SPACEING.
-           MOVE 5                    TO LINE-COUNT.
+           ADD  1                          TO PAGE-COUNT.
+           MOVE 1                          TO LINE-SPACEING.
+           MOVE 5                          TO LINE-COUNT.
       *---------------------------------------------------------------*
        9110-WRITE-TOP-OF-PAGE.
       *---------------------------------------------------------------*
            WRITE PRINT-RECORD
                AFTER ADVANCING PAGE.
-           MOVE SPACE                TO PRINT-LINE.
+           MOVE SPACE                      TO PRINT-LINE.
       *---------------------------------------------------------------*
        9120-WRITE-PRINT-LINE.
       *---------------------------------------------------------------*
            WRITE PRINT-RECORD
                AFTER ADVANCING LINE-SPACEING.
-           MOVE SPACE                TO PRINT-LINE.
-           ADD  1                    TO LINE-COUNT.
-           MOVE 1                    TO LINE-SPACEING.
+           MOVE SPACE                      TO PRINT-LINE.
+           ADD  1                          TO LINE-COUNT.
+           MOVE 1                          TO LINE-SPACEING.

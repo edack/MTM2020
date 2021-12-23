@@ -1,0 +1,106 @@
+/* REXX  */
+ADDRESS ISREDIT
+'MACRO (ARGS)'
+IF RC > 0
+   THEN
+       DO
+         SAY 'USE THIS COMMAND IN ISPF EDIT MODE'
+         EXIT
+       END
+PARSE VAR ARGS RECSIZE DEVICE NUM_OF_REC
+DO WHILE (RECSIZE = '')
+   SAY 'ENTER RECORD SIZE:'
+   PULL RECSIZE
+END
+DO WHILE (DATATYPE(RECSIZE,'W') <> 1)
+   SAY 'RECORD SIZE SHOULD BE NUMERIC:'
+   PULL RECSIZE
+END
+select
+  when DEVICE = ''  |,
+       DEVICE = '9' then SBF = 27998
+  when DEVICE = '8' then SBF = 23476
+  when DEVICE = '0' then SBF =  8906 /* OPTIMUM FOR 3380 AND 3390 */
+  otherwise              SBF = 32760
+end
+FACTOR = SBF % RECSIZE
+BLOCK  = FACTOR * RECSIZE
+IF BLOCK = 0 THEN BLOCK= RECSIZE
+IF NUM_OF_REC = ''
+   THEN
+         DO
+           ADDRESS ISPEXEC
+           ZEDSMSG = 'REC='||RECSIZE ': BLK='||BLOCK
+           'SETMSG MSG(ISRZ001)'
+           EXIT
+         END
+SAY 'BEST BLOCK SIZE =' BLOCK
+DO WHILE (DATATYPE(NUM_OF_REC,'W') ^= 1)
+   SAY 'NUMBER OF RECORD SHOULD BE NUMERIC:'
+   PULL NUM_OF_REC
+END
+IF DEVICE = ''
+   THEN
+        DO
+          REC_PER_TRK = FACTOR * 2
+          REC_PER_CYL = FACTOR * 30
+          NUM_OF_BLK = (NUM_OF_REC - 1) % FACTOR + 1
+          NUM_OF_TRK = (NUM_OF_REC - 1) % REC_PER_TRK + 1
+          NUM_OF_CYL = (NUM_OF_REC - 1) % REC_PER_CYL + 1
+          NUM_OF_UNT = NUM_OF_CYL % 885 + 1
+          SAY 'BLOCKS REQUIRED =' NUM_OF_BLK 'BLOCKS'
+          SAY 'TRACKS REQUIRED =' NUM_OF_TRK 'TRACKS'
+          SAY 'CYLNDS REQUIRED =' NUM_OF_CYL 'CYLINDERS'
+          SAY '3380 S. DENSITY =' NUM_OF_UNT 'UNIT(S)'
+        END
+   ELSE IF DEVICE = '9' THEN DO
+          REC_PER_TRK = FACTOR * 2
+          REC_PER_CYL = FACTOR * 30
+          NUM_OF_BLK = (NUM_OF_REC - 1) % FACTOR + 1
+          NUM_OF_TRK = (NUM_OF_REC - 1) % REC_PER_TRK + 1
+          NUM_OF_CYL = (NUM_OF_REC - 1) % REC_PER_CYL + 1
+          NUM_OF_UNT = NUM_OF_CYL % 2226 + 1
+          SAY 'BLOCKS REQUIRED =' NUM_OF_BLK 'BLOCKS'
+          SAY 'TRACKS REQUIRED =' NUM_OF_TRK 'TRACKS'
+          SAY 'CYLNDS REQUIRED =' NUM_OF_CYL 'CYLINDERS'
+          SAY '3390 A24 OR B24 =' NUM_OF_UNT 'UNIT(S)'
+        END
+   ELSE IF DEVICE = '0' THEN DO
+          REC_PER_TRK8 = FACTOR * 5
+          REC_PER_TRK9 = FACTOR * 6
+          REC_PER_CYL8 = FACTOR * 75
+          REC_PER_CYL9 = FACTOR * 90
+          NUM_OF_BYTES = RECSIZE * NUM_OF_REC
+          NUM_OF_BLK = (NUM_OF_REC - 1) % FACTOR + 1
+          NUM_OF_TRK8 = (NUM_OF_REC - 1) % REC_PER_TRK8 + 1
+          NUM_OF_TRK9 = (NUM_OF_REC - 1) % REC_PER_TRK9 + 1
+          NUM_OF_CYL8 = (NUM_OF_REC - 1) % REC_PER_CYL8 + 1
+          NUM_OF_CYL9 = (NUM_OF_REC - 1) % REC_PER_CYL9 + 1
+          NUM_OF_UNT8 = NUM_OF_CYL8 % 885 + 1
+          NUM_OF_UNT9 = NUM_OF_CYL9 % 2226 + 1
+          SAY 'OPTIMUM SPACE FOR BOTH 3380 AND 3390 '
+          SAY 'BLOCKS REQUIRED      =' NUM_OF_BLK 'BLOCKS'
+          SAY 'TOTAL BYTES          =' NUM_OF_BYTES 'BYTES'
+          SAY '3380 TRACKS REQUIRED =' NUM_OF_TRK8 'TRACKS'
+          SAY '3390 TRACKS REQUIRED =' NUM_OF_TRK9 'TRACKS'
+          SAY '3380 CYLNDS REQUIRED =' NUM_OF_CYL8 'CYLINDERS'
+          SAY '3390 CYLNDS REQUIRED =' NUM_OF_CYL9 'CYLINDERS'
+          SAY '3380 S. DENSITY =' NUM_OF_UNT8 'UNIT(S)'
+          SAY '3390 A24 OR B24 =' NUM_OF_UNT9 'UNIT(S)'
+        END
+   ELSE
+        DO
+          NUM_OF_BLK = (NUM_OF_REC - 1) % FACTOR + 1
+          TLEN   = (1000 * BLOCK + 3125) % 6250 + 250
+          INCHES = TLEN * NUM_OF_BLK
+          FTT    = (INCHES + 6000) % 12000
+          AREELS = INCHES % 28164000 + 1
+          MREELS = INCHES % 28764000 + 1
+          SAY FTT 'FEET OF TAPE REQUIRED (+ 3 FEET OF LEADER PER REEL)'
+          IF AREELS = MREELS
+             THEN
+                  SAY AREELS ' REEL(S) REQUIRED'
+             ELSE
+                  SAY MREELS ' TO ' AREELS ' REELS REQUIRED'
+        END
+EXIT

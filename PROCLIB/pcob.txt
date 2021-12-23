@@ -1,0 +1,32 @@
+//P1 PROC ID=                                                           00010000
+//ISPF    EXEC PGM=IEBCOPY                                              00020000
+//SYSIN    DD DUMMY                                                     00030000
+//SYSPRINT DD DUMMY                                                     00040000
+//SYSUT1   DD DSN=MTM2020.PUBLIC.ISPF.ISPPROF,DISP=SHR                  00050000
+//SYSUT2   DD DSN=&ID..S0W1.ISPF.ISPPROF,DISP=(,CATLG,DELETE),          00060000
+//       LIKE=MTM2020.PUBLIC.ISPF.ISPPROF                               00070000
+//JCL     EXEC PGM=IEBCOPY                                              00071000
+//SYSIN    DD DUMMY                                                     00072000
+//SYSPRINT DD DUMMY                                                     00073000
+//SYSUT1   DD DSN=ZOS.PUBLIC.JCL,DISP=SHR                               00074000
+//SYSUT2   DD DSN=&ID..JCL,DISP=(,CATLG,DELETE),                        00075000
+//       LIKE=ZOS.PUBLIC.JCL                                            00076000
+//CBL     EXEC PGM=IEBCOPY                                              00077000
+//SYSIN    DD DUMMY                                                     00078000
+//SYSPRINT DD DUMMY                                                     00079000
+//SYSUT1   DD DSN=ZOS.PUBLIC.CBL,DISP=SHR                               00079100
+//SYSUT2   DD DSN=&ID..CBL,DISP=(,CATLG,DELETE),                        00079200
+//       LIKE=ZOS.PUBLIC.CBL                                            00079300
+//LOAD    EXEC PGM=IEBCOPY                                              00079400
+//SYSIN    DD DUMMY                                                     00079500
+//SYSPRINT DD DUMMY                                                     00079600
+//SYSUT1   DD DSN=ZOS.PUBLIC.LOAD,DISP=SHR                              00079700
+//SYSUT2   DD DSN=&ID..LOAD,DISP=(,CATLG,DELETE),                       00079800
+//       LIKE=ZOS.PUBLIC.LOAD                                           00079900
+//DATA    EXEC PGM=IEBGENER                                             00080000
+//SYSIN    DD DUMMY                                                     00081000
+//SYSPRINT DD DUMMY                                                     00082000
+//SYSUT1   DD DSN=ZOS.PUBLIC.SEQ.DATA,DISP=SHR                          00083000
+//SYSUT2   DD DSN=&ID..DATA,DISP=(,CATLG,DELETE),                       00084000
+//       LIKE=ZOS.PUBLIC.SEQ.DATA                                       00085000
+//   PEND                                                               00086000
