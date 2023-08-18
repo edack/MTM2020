@@ -6,6 +6,7 @@ from datetime import datetime
 # Import os, needed to get the environment variables
 import os
 
+
 #Take the contents of this data set and read it into cc_contents
 cc_contents = Datasets.read("MTM2020.PUBLIC.CUST16")
 
