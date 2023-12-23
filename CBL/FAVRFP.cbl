@@ -250,14 +250,16 @@
                WHEN DRUMS
                    MOVE  3087.22         TO  WS-INSTRUMENT-COST-NUM
                WHEN PERCUSSION
-                   MOVE   799.99         TO  WS-INSTRUMENT-COST-NUM.
+                   MOVE   799.99         TO  WS-INSTRUMENT-COST-NUM
+           END-EVALUATE.
            EVALUATE TRUE
                WHEN USED-FLAG
                  MOVE  -0.20             TO  WS-QUALITY-NUM
                WHEN NEW-FLAG
                  MOVE  0                 TO  WS-QUALITY-NUM
                WHEN PREMIUM-FLAG
-                 MOVE   0.20             TO  WS-QUALITY-NUM.
+                 MOVE   0.20             TO  WS-QUALITY-NUM
+           END-EVALUATE.  
            IF  IN-COUNTRY
                MOVE  0.10                TO  WS-SHIPPING-RATE-NUM
            ELSE
